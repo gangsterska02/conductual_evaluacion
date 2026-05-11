@@ -522,7 +522,7 @@ def preparar_preguntas():
 # ─────────────────────────────────────────────
 # GOOGLE SHEETS  (vía Apps Script Web App)
 # ─────────────────────────────────────────────
-GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwIIEtHwO-9XtkE1ASunR7QH-FsNkqypWxWA0fm0xZShIbl_Ciq5Xh9OZdZv5lX0Kop/exec"
+GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbyf__SpaqmKtfz02uty9QYEnSQ5bnWwJPkwn_BNby02TvMdUJQIVwHrgtjHwOi-wzYr/exec"
 
 
 def guardar_en_sheets() -> tuple[bool, str]:
