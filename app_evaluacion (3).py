@@ -522,7 +522,7 @@ def preparar_preguntas():
 # ─────────────────────────────────────────────
 # GOOGLE SHEETS  (vía Apps Script Web App)
 # ─────────────────────────────────────────────
-GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzl4dWOvaZ9UPzSWxzM6mv5oh0vHyTB5qy8fDtVVpaYQfXLpK6nHxFt4m_jQ9iQlE1Z/exec"
+GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwIIEtHwO-9XtkE1ASunR7QH-FsNkqypWxWA0fm0xZShIbl_Ciq5Xh9OZdZv5lX0Kop/exec"
 
 
 def guardar_en_sheets() -> tuple[bool, str]:
@@ -538,12 +538,40 @@ def guardar_en_sheets() -> tuple[bool, str]:
             }
             for ans in st.session_state.answers
         ]
+        d = st.session_state.data
+        es_posgrado = d.get("Posgrado", "No") == "Sí"
+
         datos = {
-            "fecha":      datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "nombre":     st.session_state.data.get("Nombre Consentimiento", ""),
-            "edad":       st.session_state.data.get("Edad", ""),
-            "semestre":   st.session_state.data.get("Semestre", ""),
-            "correo":     st.session_state.data.get("Correo", ""),
+            "fecha":    datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "nombre":   d.get("Nombre Consentimiento", ""),
+            "edad":     d.get("Edad", ""),
+            "semestre": d.get("Semestre", ""),
+            "correo":   d.get("Correo", ""),
+            "posgrado": d.get("Posgrado", ""),
+            # Campos de posgrado: solo si es estudiante de posgrado
+            "nivel_posgrado":            d.get("Nivel de posgrado", "")            if es_posgrado else "",
+            "semestre_posgrado":         d.get("Semestre posgrado", "")            if es_posgrado else "",
+            "campo_conocimiento":        d.get("Campo de conocimiento", "")        if es_posgrado else "",
+            "sede":                      d.get("Sede posgrado", "")                if es_posgrado else "",
+            "tipo_ingreso_doctorado":    d.get("Tipo ingreso doctorado", "")       if es_posgrado else "",
+            "curso_ingreso":             d.get("Curso ingreso posgrado", "")       if es_posgrado else "",
+            "tiempo_titulacion_ingreso": d.get("Tiempo entre titulación e ingreso", "") if es_posgrado else "",
+            "grupo_investigacion":       d.get("Grupo de investigación", "")       if es_posgrado else "",
+            "tiempo_en_grupo":           d.get("Tiempo en grupo inv.", "")          if es_posgrado else "",
+            "da_clases":                 d.get("Da clases", "")                    if es_posgrado else "",
+            "asignatura":                d.get("Asignatura que imparte", "")       if es_posgrado else "",
+            "tiempo_dando_clases":       d.get("Tiempo dando clases (meses)", "")  if es_posgrado else "",
+            # Autoevaluación
+            "auto_teorico_conductual":           d.get("Teórico - Conductual", ""),
+            "auto_teorico_cogconductual":         d.get("Teórico - Cognitivo Conductual", ""),
+            "auto_teorico_interconductual":       d.get("Teórico - Interconductual", ""),
+            "auto_metodologico_conductual":       d.get("Metodológico - Conductual", ""),
+            "auto_metodologico_cogconductual":    d.get("Metodológico - Cognitivo Conductual", ""),
+            "auto_metodologico_interconductual":  d.get("Metodológico - Interconductual", ""),
+            "auto_aplicado_conductual":           d.get("Aplicado - Conductual", ""),
+            "auto_aplicado_cogconductual":        d.get("Aplicado - Cognitivo Conductual", ""),
+            "auto_aplicado_interconductual":      d.get("Aplicado - Interconductual", ""),
+            # Respuestas a preguntas
             "respuestas": respuestas_lista,
         }
         payload = json.dumps(datos).encode("utf-8")
