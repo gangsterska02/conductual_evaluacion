@@ -542,6 +542,7 @@ def guardar_en_sheets() -> tuple[bool, str]:
         es_posgrado = d.get("Posgrado", "No") == "Sí"
 
         datos = {
+            "hoja":     "posgrado" if es_posgrado else "licenciatura",
             "fecha":    datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "nombre":   d.get("Nombre Consentimiento", ""),
             "edad":     d.get("Edad", ""),
